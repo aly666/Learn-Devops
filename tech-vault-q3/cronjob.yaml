@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: task
+  namespace: default
+spec:
+  schedule: "*/1 * * * *"   # Jalan setiap 1 menit
+  successfulJobsHistoryLimit: 3   # Simpan 3 job sukses terakhir
+  failedJobsHistoryLimit: 1       # Simpan 1 job gagal terakhir
+  jobTemplate:
+    spec:
+      backoffLimit: 1             # Jangan restart job lebih dari sekali
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: curl-task
+              image: curlimages/curl:latest
+              imagePullPolicy: Always
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "⏰ Menjalankan cronjob pada $(date)"
+                  curl -s https://httpbin.org/get && echo "✅ API call success"
+
