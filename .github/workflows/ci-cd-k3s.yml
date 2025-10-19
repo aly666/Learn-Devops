@@ -11,14 +11,14 @@ on:
 env:
   IMAGE_NAME: myflaskapp
   IMAGE_TAG: ${{ github.sha }}
-  APP_FOLDER: Learn-Devops/tech-vault-q8
+  APP_FOLDER: tech-vault-q8
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
         with:
           submodules: true
@@ -71,6 +71,11 @@ jobs:
 
       - name: Deploy to K3s
         run: |
+          # Jika deployment belum ada, buat deployment dan service
+          kubectl apply -f ${{ env.APP_FOLDER }}/deployment.yaml || true
+          kubectl apply -f ${{ env.APP_FOLDER }}/service.yaml || true
+
+          # Update image deployment
           kubectl set image deployment/myflaskapp myflaskapp=${{ secrets.DOCKER_USERNAME }}/myflaskapp:${{ env.IMAGE_TAG }} -n default
           kubectl rollout status deployment/myflaskapp -n default
 
