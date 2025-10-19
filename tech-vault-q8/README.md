@@ -1,4 +1,4 @@
-Konteks
+Konteks  
 
 Anda bertanggung jawab atas pipeline CI/CD untuk aplikasi web Python. Aplikasi ini dibangun menggunakan Flask dan kode sumbernya disimpan di repositori GitHub.
 
