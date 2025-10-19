@@ -71,7 +71,7 @@ jobs:
           export KUBECONFIG=$PWD/kubeconfig
 
       - name: Test K3s connection
-        run: kubectl get nodes
+        run: k3s kubectl get nodes
 
       - name: Deploy to K3s
         run: |
