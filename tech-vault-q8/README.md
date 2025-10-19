@@ -21,3 +21,7 @@ Batasan
 Gunakan satu file YAML untuk workflow GitHub Actions.
 
 Asumsikan Anda sudah memiliki credential yang diperlukan untuk deploy ke cloud.
+
+Noted 
+
+tidak bisa di deploy ke k3s karena mengunakan k3s local
