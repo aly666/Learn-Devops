@@ -1,0 +1,13 @@
+SSL Certificates (Secure Sockets Layer Certificates) adalah sertifikat digital yang digunakan untuk mengamankan koneksi antara pengguna (browser)
+ dan server (website) dengan cara mengenkripsi data yang dikirim di antara keduanya.
+
+Sekarang sebenarnya teknologi yang digunakan sudah bukan SSL lagi, tapi TLS (Transport Layer Security) — namun istilah “SSL Certificate”
+masih umum dipakai.
+
+STEP 1
+mkdir tech-vault-q4
+nano secrecy.key
+nano security.crt
+
+STEP 2
+jalankan sh
