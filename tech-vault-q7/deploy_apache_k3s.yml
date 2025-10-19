@@ -1,0 +1,13 @@
+---
+- name: Deploy Apache Web Server on K3s using kubectl
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Apply Apache Deployment, ConfigMap, and Service
+      command: kubectl apply -f apache-deployment.yml --kubeconfig /etc/rancher/k3s/k3s.yaml
+      register: result
+
+    - name: Show output
+      debug:
+        var: result.stdout_lines
+

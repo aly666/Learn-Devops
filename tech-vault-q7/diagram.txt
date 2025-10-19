@@ -1,0 +1,45 @@
+┌──────────────────────────────┐
+│  Mulai (Start)               │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Buat direktori proyek Ansible│
+│ /home/ubuntu/tech-vault-ansible │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Buat inventory hosts.ini     │
+│ Tentukan IP server & user   │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Buat playbook                │
+│ web_server_setup.yml         │
+│ - Update apt cache           │
+│ - Install apache2            │
+│ - Enable & start service     │
+│ - Deploy index.html          │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Jalankan playbook:           │
+│ ansible-playbook -i hosts.ini│
+│ web_server_setup.yml         │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Verifikasi di browser:       │
+│ http://your_server_ip        │
+│ Tampil "Hello, Ansible!"     │
+└─────────────┬────────────────┘
+              │
+              ▼
+┌──────────────────────────────┐
+│ Selesai (End)               │
+└──────────────────────────────┘
+

@@ -1,0 +1,33 @@
+# ServiceAccount: chief-admin (di namespace default)
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: chief-admin
+  namespace: default
+
+---
+# ClusterRole: monitor (memiliki akses ke semua apiGroups, resources, dan verbs)
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitor
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+
+---
+# ClusterRoleBinding: chiefadmin-monitor
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: chiefadmin-monitor
+subjects:
+  - kind: ServiceAccount
+    name: chief-admin
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: monitor
+  apiGroup: rbac.authorization.k8s.io
+

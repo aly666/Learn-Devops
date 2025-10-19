@@ -11,7 +11,7 @@ on:
 env:
   IMAGE_NAME: myflaskapp
   IMAGE_TAG: ${{ github.sha }}
-  APP_FOLDER: .
+  APP_FOLDER: Learn-Devops/tech-vault-q8
 
 jobs:
   build-and-test:
