@@ -34,7 +34,8 @@ jobs:
           pip install -r ${{ env.APP_FOLDER }}/requirements.txt
 
       - name: Run tests
-        run: pytest ${{ env.APP_FOLDER }}/tests/
+        run: |
+          PYTHONPATH=${{ env.APP_FOLDER }} pytest ${{ env.APP_FOLDER }}/tests/
 
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.APP_FOLDER }}
