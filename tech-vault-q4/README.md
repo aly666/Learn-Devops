@@ -11,3 +11,10 @@ nano security.crt
 
 STEP 2
 jalankan sh
+kubectl config get-contexts
+
+sudo bash -c 'bash /home/aly/Learn-Devops/tech-vault-q4/taskrunner.sh'
+
+alias execute='bash ~/Learn-Devops/tech-vault-q4/taskrunner.sh'
+sudo bash -c "$(alias execute | cut -d"'" -f2)"
+

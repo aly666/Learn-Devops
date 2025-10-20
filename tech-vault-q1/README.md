@@ -10,21 +10,67 @@ Penjelasan singkat:
 
 - containerPort: 6379 membuka port 6379 pada container.
 
-STEP 1 
-sudo mkdir -p /home/ubuntu/tech-vault
-sudo tee /home/ubuntu/tech-vault/special-definition.yml > /dev/null <<'YAML'
-(paste isi YAML dari bagian 1 di sini)
-YAML
 
-(Opsional) Salin ke stub path yang diberikan:
-sudo cp /home/ubuntu/tech-vault/special-definition.yml /home/ubuntu/tech-vault-q1/special-definition.yml
+
+STEP 1 
+sudo mkdir -p /home/aly/Learn-Devops/tech-vault-q1
+sudo tee /home/aly/Learn-Devops/tech-vault-q1/special-definition.yml > /dev/null <<EOF
+# Namespace cyberco
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cyberco
+---
+# Deployment Redis
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cache-db
+  namespace: cyberco
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cache-db
+  template:
+    metadata:
+      labels:
+        app: cache-db
+    spec:
+      containers:
+      - name: redis
+        image: redis:buster
+        ports:
+        - containerPort: 6379
+EOF
+
+STEP 2
+buat alias dp='kubectl apply -f'
+dp /home/aly/Learn-Devops/tech-vault-q1/special-definition.yml
+
+
+kubectl get ns
+kubectl get deployments -n CyberCo
+kubectl get pods -n CyberCo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 nano redis-service.yml (bisa di satukan opsional dengan deployment)
-
-
-STEP 2 
+STEP Manual 
 - sudo k3s kubectl create ns cyberco
-
 - kubectl get deploy -n CyberCo
 - kubectl get pods -n CyberCo -o wide
 - kubectl describe deployment cache-db -n CyberCo 

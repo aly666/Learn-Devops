@@ -1,16 +1,15 @@
----
+# Namespace cyberco
 apiVersion: v1
 kind: Namespace
 metadata:
   name: cyberco
 ---
+# Deployment Redis
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cache-db
   namespace: cyberco
-  labels:
-    app: cache-db
 spec:
   replicas: 2
   selector:
@@ -26,9 +25,4 @@ spec:
         image: redis:buster
         ports:
         - containerPort: 6379
-          name: redis
-        resources: {}
-      # Jika ingin memastikan pod hanya dijadwalkan pada node linux:
-#      nodeSelector:
-#        kubernetes.io/os: linux
 
