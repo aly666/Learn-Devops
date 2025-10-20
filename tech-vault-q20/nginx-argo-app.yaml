@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/aly666/facebook.git'
-    targetRevision: HEAD
-    path: .
+    repoURL: 'https://github.com/aly666/Learn-Devops.git'
+    targetRevision: master       # branch master
+    path: k8s                    # folder yang berisi deployment.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
@@ -16,4 +16,6 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 
