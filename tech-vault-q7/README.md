@@ -1,12 +1,29 @@
-atihan Ansible 1: Mengonfigurasi Web Server
+Terjemahan (Bahasa Indonesia)
+
 Tujuan
 
-Tugas Anda adalah menulis playbook Ansible yang mengotomatiskan tugas-tugas berikut pada server Ubuntu jarak jauh:
+Tugas Anda adalah menulis sebuah playbook Ansible yang mengotomatiskan tugas berikut pada server Ubuntu remote:
 
-Step 1: Memperbarui cache package manager.
+Langkah 1: Memperbarui cache package manager.
 
-Step 2: Menginstal paket web server Apache (apache2).
+Langkah 2: Menginstal paket web server Apache (apache2).
 
-Step 3: Mengaktifkan dan memulai service Apache.
+Langkah 3: Mengaktifkan dan menjalankan service Apache.
 
-Step 4: Men-deploy file index.html sederhana ke document root /var/www/html/ yang menampilkan tulisan:
+Langkah 4: Men-deploy file index.html sederhana ke document root /var/www/html/. HTML tersebut menampilkan teks "Hello, Ansible!"
+
+Persyaratan
+
+Playbook harus idempotent — artinya bisa dijalankan berulang kali tanpa mengubah hasil setelah sudah dalam keadaan yang diinginkan.
+
+Host target didefinisikan di inventory Ansible.
+
+Simpan playbook sebagai /home/ubuntu/tech-vault-ansible/web_server_setup.yml.
+
+Jalankan ansible-playbook web_server_setup.yml untuk memastikan berjalan tanpa error.
+
+Diasumsikan SSH key sudah dikonfigurasi untuk autentikasi ke server target.
+
+
+ansible-playbook -i hosts.ini web_server_setup.yml
+

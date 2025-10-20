@@ -1,0 +1,53 @@
+---
+- name: Setup Apache Web Server on Localhost (Port 9999)
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Ensure Apache service is enabled and running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Configure Apache to listen on port 9999
+      lineinfile:
+        path: /etc/apache2/ports.conf
+        regexp: '^Listen'
+        line: 'Listen 9999'
+        state: present
+      notify: Restart Apache
+
+    - name: Update default VirtualHost to use port 9999
+      replace:
+        path: /etc/apache2/sites-enabled/000-default.conf
+        regexp: '<VirtualHost \*:80>'
+        replace: '<VirtualHost *:9999>'
+      notify: Restart Apache
+
+    - name: Deploy custom index.html
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <html>
+          <head><title>Hello from Ansible (Port 9999)</title></head>
+          <body><h1>Hello, Ansible! Running on port 9999 🚀</h1></body>
+          </html>
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+

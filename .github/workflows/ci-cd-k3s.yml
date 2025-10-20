@@ -1,4 +1,4 @@
-name: CI/CD Pipeline K3s
+name: Python CI/CD Pipeline
 
 on:
   push:
@@ -8,78 +8,43 @@ on:
     branches:
       - master
 
-env:
-  IMAGE_NAME: myflaskapp
-  IMAGE_TAG: ${{ github.sha }}
-  APP_FOLDER: tech-vault-q8
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          submodules: true
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ${{ env.APP_FOLDER }}/requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
 
-      - name: Run tests
-        run: |
-          PYTHONPATH=${{ env.APP_FOLDER }} pytest ${{ env.APP_FOLDER }}/tests/
+    - name: Run unit tests
+      run: |
+        python -m pytest tests
 
-      - name: Build Docker image
-        run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.APP_FOLDER }}
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Push Docker image
-        run: |
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
-  deploy-to-k3s:
-    runs-on: ubuntu-latest
+  deploy:
     needs: build-and-test
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && success()  # disesuaikan dengan trigger master
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.30.0'
-
-      - name: Configure Kubeconfig from base64
-        run: |
-          echo "${{ secrets.K3S_KUBECONFIG }}" | base64 --decode > kubeconfig
-          export KUBECONFIG=$PWD/kubeconfig
-
-      - name: Test K3s connection
-        run: kubectl get nodes
-
-      - name: Deploy to K3s
-        run: |
-          # Jika deployment belum ada, buat deployment dan service
-          kubectl apply -f ${{ env.APP_FOLDER }}/deployment.yaml || true
-          kubectl apply -f ${{ env.APP_FOLDER }}/service.yaml || true
-
-          # Update image deployment
-          kubectl set image deployment/myflaskapp myflaskapp=${{ secrets.DOCKER_USERNAME }}/myflaskapp:${{ env.IMAGE_TAG }} -n default
-          kubectl rollout status deployment/myflaskapp -n default
+    - name: Deploy to AWS
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+        echo "Deploying application..."
+        # Tambahkan perintah deploy sesuai cloud provider
+        # Contoh: aws s3 cp ./app s3://my-bucket --recursive
 
