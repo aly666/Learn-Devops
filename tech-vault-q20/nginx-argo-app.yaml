@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/aly666/Learn-Devops.git'
     targetRevision: master       # branch master
-    path: k8s                    # folder yang berisi deployment.yaml
+    path: tech-vault-q20                    # folder yang berisi deployment.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
